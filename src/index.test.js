@@ -108,7 +108,7 @@ test('release uses optimistic version checks and is idempotent', async () => {
   });
 });
 
-test('conflicts when reservation id is reused with different payload and errors on unknown release', async () => {
+test('conflicts when reservation id is reused with different payload', async () => {
   await withServer(async (baseUrl) => {
     const reserved = await post(baseUrl, '/inventory/reserve', {
       reservationId: 'res-4',
@@ -126,11 +126,16 @@ test('conflicts when reservation id is reused with different payload and errors 
     });
     assert.equal(conflict.status, 409);
     assert.equal(conflict.body.error, 'idempotency_conflict');
+  });
+});
 
+test('returns 404 when releasing an unknown reservation', async () => {
+  await withServer(async (baseUrl) => {
     const missing = await post(baseUrl, '/inventory/release', {
       reservationId: 'missing-reservation',
       expectedVersion: 0
     });
+
     assert.equal(missing.status, 404);
     assert.equal(missing.body.error, 'reservation_not_found');
   });
