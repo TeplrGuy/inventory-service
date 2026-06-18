@@ -94,6 +94,10 @@ function createApp(initialStock = { 'SKU-100': 50, 'SKU-200': 25 }) {
     }
 
     const inventory = stockBySku.get(reservation.sku);
+    if (!inventory) {
+      return res.status(409).json({ error: 'inventory_not_found', sku: reservation.sku });
+    }
+
     if (reservation.released) {
       return res.status(200).json({
         reservationId,
