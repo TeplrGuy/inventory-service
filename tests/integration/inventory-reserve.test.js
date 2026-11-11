@@ -22,7 +22,7 @@ test("inventory reserve flow and idempotency", async () => {
   const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn("node", ["src/index.js"], {
     cwd: process.cwd(),
-    env: { ...process.env, PORT: port },
+    env: { ...process.env, PORT: port, DATABASE_URL: "", ENVIRONMENT_NAME: "local", NODE_ENV: "test" },
     stdio: "ignore"
   });
 

@@ -7,6 +7,7 @@ module.exports = [{
       console: 'readonly',
       fetch: 'readonly',
       process: 'readonly',
+      structuredClone: 'readonly',
       setTimeout: 'readonly'
     }
   },
